@@ -1,0 +1,89 @@
+<div class="container">
+  <div class="personalDetails">
+    <div class="d-flex justify-content-between">
+    <h4 class="mb-4">Personal Details</h4>
+
+    <button class="btn btn-outline-primary mb-4" (click)="addPersonalDetail()">
+      <i class="fa fa-plus"></i> Add More
+    </button>
+    </div>
+    <table class="table table-hover table-light text-center">
+      <thead>
+      <tr>
+        <th>S.N.</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Date of birth</th>
+        <th>Age</th>
+        <th>Phone Number</th>
+        <th>Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let user of fetchedData; let i = index">
+        <tr>
+          <td>{{ i + 1 }}</td>
+          <td>{{ user.firstname }}</td>
+          <td>{{ user.lastname }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.dob }}</td>
+          <td>{{ user.age | ageFormatterPipe }}</td>
+          <td>{{ user.phone }}</td>
+          <td>
+            <button class="btn btn-secondary mx-1" (click)="viewPersonalDetail(user.id)">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+            <button class="btn btn-primary mx-1" (click)="editPersonalDetail(user.id)">
+              <i class="fa-solid fa-edit"></i>
+            </button>
+            <button class="btn btn-danger mx-1"
+                    mwlConfirmationPopover
+                    [popoverTitle]="popoverTitle"
+                    [popoverMessage]="popoverMessage"
+                    placement="left"
+                    (confirm)=" deletePersonalDetail(user.id)"
+                    (cancel)="cancelClicked = true">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+
+          </td>
+        </tr>
+        <tr>
+          <td [attr.colspan]="8">
+            <div class="familyDetails">
+              <h6>Family Details</h6>
+              <table class="table table-hover table-dark">
+                <thead>
+                <tr>
+                  <th>S.N.</th>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th>Date of birth</th>
+                  <th>Age</th>
+                  <th>Phone Number</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let familyDetail of user.familyDetails; let j = index">
+                  <tr>
+                    <td class="{{ (j + 1) | nepaliFont }}">{{ (j + 1) | nepaliFont }}</td>
+                    <td>{{ familyDetail.familyFirstName }}</td>
+                    <td>{{ familyDetail.familyLastName }}</td>
+                    <td>{{ familyDetail.familyEmail }}</td>
+                    <td>{{ familyDetail.familyDob }}</td>
+                    <td>{{ familyDetail.familyAge | ageFormatterPipe }}</td>
+                    <td>{{ familyDetail.familyPhone }}</td>
+                  </tr>
+                </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>

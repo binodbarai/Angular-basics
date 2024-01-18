@@ -1,0 +1,21 @@
+<div class="container my-4">
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <td>S.N.</td>
+    <td>Name</td>
+    <td>Age</td>
+    <td>Address</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of userDetails; let i = index;">
+    <td>{{i+1}}</td>
+    <td>{{data.name}}</td>
+    <td>{{data.age}}</td>
+    <td>{{data.address}}</td>
+  </tr>
+  </tbody>
+
+</table>
+</div>

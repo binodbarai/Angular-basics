@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+body{
+  //font-family: poppins;
+}
+app-header{
+  position: fixed;
+  width: calc(100% - 280px);
+  top: 0;
+  right: 0;
+  z-index: 3;
+}
+app-side-nav{
+  position: fixed;
+  width: 100%;
+}
+
+

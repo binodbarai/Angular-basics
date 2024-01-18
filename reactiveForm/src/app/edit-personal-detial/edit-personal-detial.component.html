@@ -1,0 +1,365 @@
+<div class="container">
+  <h4 class="my-4">Reactive Form and FormArray</h4>
+  <form [formGroup]="userDetails">
+    <div class="border p-5 bg-light border rounded">
+      <h4 class="fw-semibold mb-4">Personal details</h4>
+      <hr class="mt-1 mb-3"/>
+
+      <div class="row g-3">
+        <div class="col-4">
+          <label for="firstname" class="form-label">Your First Name</label>
+          <input
+            type="text"
+            formControlName="firstname"
+            name="firstname"
+            id="firstname"
+            class="form-control"
+            placeholder="Enter your first name"
+            required
+          />
+          <div
+            class="text-danger"
+            *ngIf="
+              userDetails.get('firstname').invalid &&
+              userDetails.get('firstname').touched
+            "
+          >
+            <small>Please enter your first name.</small>
+          </div>
+        </div>
+
+        <div class="col-4">
+          <label for="lastname" class="form-label">Your Last Name</label>
+          <input
+            type="text"
+            formControlName="lastname"
+            name="lastname"
+            id="lastname"
+            class="form-control"
+            placeholder="Enter your last name"
+            required
+          />
+          <div class="text-danger">
+            <small
+              *ngIf="
+                userDetails.get('lastname').invalid &&
+                userDetails.get('lastname').touched
+              "
+            >Please enter your last name.</small
+            >
+          </div>
+        </div>
+
+        <div class="col-4">
+          <label for="email" class="form-label">Your Email</label>
+          <input
+            type="email"
+            formControlName="email"
+            name="email"
+            id="email"
+            class="form-control"
+            placeholder="Enter your e-mail"
+            required
+            email
+          />
+          <div
+            class="text-danger"
+            *ngIf="
+              userDetails.get('email').invalid &&
+              userDetails.get('email').touched
+            "
+          >
+            <small *ngIf="userDetails.get('email')?.errors?.required"
+            >Email is required</small
+            >
+            <small *ngIf="userDetails.get('email')?.hasError('pattern')"
+            >Please enter a valid email</small
+            >
+          </div>
+        </div>
+
+        <div class="col-4">
+          <label for="dob" class="form-label">Date of Birth</label>
+          <input
+            type="date"
+            formControlName="dob"
+            name="dob"
+            id="dob"
+            class="form-control"
+            (input)="calculateAge()"
+            required
+          />
+          <small></small>
+        </div>
+
+        <div class="col-4" *ngIf="userDetails.get('dob').value">
+          <label for="age" class="form-label">Your Age</label>
+          <input
+            type="text"
+            formControlName="age"
+            name="lastName"
+            class="form-control"
+            id="age"
+            readonly
+          />
+        </div>
+
+        <div class="col-4">
+          <label for="inputAddress2" class="form-label">Your Phone Number</label>
+          <input
+            type="text"
+            formControlName="phoneNumber"
+            name="phoneNumber"
+            id="phoneNumber"
+            class="form-control"
+            placeholder="Enter your phone number"
+            (change)="onPhoneInput($event)"
+            required
+          />
+          <div
+            class="text-danger"
+            *ngIf="
+              userDetails.get('phoneNumber').invalid &&
+              userDetails.get('phoneNumber').touched
+            "
+          >
+            <small *ngIf="userDetails.get('phoneNumber').errors?.required"
+            >Phone is required</small
+            >
+            <small *ngIf="userDetails.get('phoneNumber').hasError('minlength')"
+            >Min length is 10</small
+            >
+            <small *ngIf="userDetails.get('phoneNumber').hasError('maxlength')"
+            >Max length is 10.
+            </small>
+            <small *ngIf="userDetails.get('phoneNumber').hasError('pattern')"
+            >Please enter a numeric value</small
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- FamilyDeatils starts here  -->
+
+      <div class="mt-5 bg-light">
+        <div class="d-flex justify-content-between">
+          <h4 class="fw-semibold mb-1">Family details</h4>
+          <button class="btn btn-outline-primary mb-1" (click)="addFamilyDetails()">
+            <i class="fa fa-user-plus"> </i> Add More
+          </button>
+        </div>
+
+        <div
+          formArrayName="familyDetails"
+          *ngFor="let detail of getFamilyDetails.controls; let i = index"
+        >
+          <hr class="mt-3 mb-2"/>
+          <br>
+          <div class="d-flex justify-content-between mt-3">
+            <h6>{{ i + 1 }} ) Enter details of your family members</h6>
+
+            <button class="btn btn-outline-danger" *ngIf="getFamilyDetails.length > 1" (click)="deleteFamilyDetails(i)">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+          <br>
+          <div [formGroupName]="i" class="row g-3 mb-5">
+            <div class="col-4">
+              <label for="familyFirstname" class="form-label">First Name</label>
+              <input
+                type="text"
+                formControlName="familyFirstName"
+                name="familyFirstname"
+                id="familyFirstname"
+                class="form-control"
+                placeholder="Enter your first name"
+                required
+              />
+              <div
+                class="text-danger"
+                *ngIf="
+                detail.get('familyFirstName')?.invalid &&
+                detail.get('familyFirstName')?.touched
+              "
+              >
+                <small>First name is required.</small>
+              </div>
+            </div>
+
+            <div class="col-4">
+              <label for="familyLastName" class="form-label">Last Name</label>
+              <input
+                type="text"
+                formControlName="familyLastName"
+                name="familyLastName"
+                id="familyLastname"
+                class="form-control"
+                placeholder="Enter your last name"
+                required
+              />
+              <div class="text-danger">
+                <small
+                  *ngIf="
+                  detail.get('familyLastName')?.invalid &&
+                  detail.get('familyLastName')?.touched
+                "
+                >Last name is required</small
+                >
+              </div>
+            </div>
+
+            <div class="col-4">
+              <label for="familyEmail" class="form-label">Email</label>
+              <input
+                type="familyEmail"
+                formControlName="familyEmail"
+                name="familyEmail"
+                id="familyEmail"
+                class="form-control"
+                placeholder="Enter your e-mail"
+                required
+                email
+              />
+              <div
+                class="text-danger"
+                *ngIf="
+                detail.get('familyEmail')?.invalid &&
+                detail.get('familyEmail')?.touched
+              "
+              >
+                <small
+                  *ngIf="detail.get('familyEmail')?.invalid"
+                >Email is required</small
+                >
+                <small
+                  *ngIf="
+                  detail
+                    .get('familyEmail')
+                    ?.hasError('pattern')
+                "
+                >Please enter a valid email</small
+                >
+              </div>
+            </div>
+
+            <div class="col-4">
+              <label for="familyDob" class="form-label">Date of Birth</label>
+              <input
+                type="date"
+                [max]="maxDate"
+                formControlName="familyDob"
+                name="familyDob"
+                id="familyDob"
+                class="form-control"
+                (input)="familyCalculateAge(i)"
+                required
+              />
+              <small></small>
+            </div>
+
+            <div
+              class="col-4"
+              *ngIf="detail.get('familyDob')?.value"
+            >
+              <label for="familyAge" class="form-label">Your Age</label>
+              <input
+                type="text"
+                formControlName="familyAge"
+                name="familyAge"
+                class="form-control"
+                placeholder="Enter your age"
+                id="familyAge"
+                readonly
+              />
+            </div>
+
+            <div class="col-4">
+              <label for="inputAddress2" class="form-label">Phone Number</label>
+              <input
+                type="text"
+                formControlName="familyPhone"
+                name="familyPhone"
+                id="familyPhone"
+                placeholder="Enter your phone number"
+                class="form-control"
+                required
+              />
+              <div
+                class="text-danger"
+                *ngIf="
+                detail.get('familyPhone')
+                  ?.invalid &&
+                detail.get('familyPhone')?.touched
+              "
+              >
+                <small
+                  *ngIf="
+                  detail
+                    .get('familyPhone')
+                    ?.hasError('required')
+                "
+                >Phone is required</small
+                >
+
+                <small
+                  *ngIf="
+                  detail
+                    .get('familyPhone')
+                    ?.hasError('minlength')
+                "
+                >Min length is 10</small
+                >
+                <small
+                  *ngIf="
+                  detail
+                    .get('familyPhone')
+                    ?.hasError('maxlength')
+                "
+                >Max length is 10</small
+                >
+                <small
+                  *ngIf="getFamilyDetails.controls[i].get('familyPhone')?.hasError('pattern')
+                "
+                >\nPlease enter a numeric value</small
+                >
+              </div>
+
+            </div>
+
+
+          </div>
+        </div>
+        <hr class="mt-1 mb-3"/>
+
+        <div class="col-12 mt-5 d-flex justify-content-between">
+
+          <button
+            type="submit"
+            class="btn btn-outline-primary"
+            (click)="goBack()"
+            name="submit"
+          >
+            Back
+          </button>
+          <button
+            type="submit"
+            class="btn btn-danger"
+            (click)="resetFrom()"
+            name="submit"
+          >
+            Reset
+          </button>
+          <button
+            type="submit"
+            class="btn btn-outline-primary"
+            name="resetform"
+            (click)="OnReactiveFormSubmit(userDetails?.value)"
+          >
+            Update
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>

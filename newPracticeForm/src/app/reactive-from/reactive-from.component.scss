@@ -1,0 +1,8 @@
+input.ng-touched.ng-invalid {
+  border: 1px solid red;
+}
+input.ng-valid,
+input:not(.ng-touched) {
+  border: 1px solid #ccc; /* Replace with your desired default border color */
+}
+

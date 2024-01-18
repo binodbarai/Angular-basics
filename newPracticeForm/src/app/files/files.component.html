@@ -1,0 +1,52 @@
+<div class="container bg-light p-5 border border-secondary rounded">
+  <form [formGroup]="imageForm">
+    <label for="">Name</label>
+    <input type="text" formControlName="name" name="name" class="form-control border border-secondary">
+    <div
+      class="text-danger"
+      *ngIf="
+              imageForm.get('name').invalid &&
+              imageForm.get('name').touched
+            "
+    >
+      <small>Please enter the file name.</small>
+    </div>
+    <br>
+    <label for="">Image</label>
+    <input type="file" class="form-control border border-secondary" name="image"
+           (change)="onFileChange($event)">
+    <div
+      class="text-danger"
+      *ngIf="
+              imageForm.get('image').invalid &&
+              imageForm.get('image').touched
+            "
+    >
+      <small>Please select a file.</small>
+    </div>
+    <br>
+    <button class="btn btn-outline-success" (click)="onUpload()"> Upload</button>
+  </form>
+
+</div>
+<div class="container">
+  <table class="table table-hover table-dark text-center mt-5">
+    <thead>
+    <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Image</th>
+    <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let data of fetchedData; let i = index" >
+    <td>{{i+1}}</td>
+    <td>{{ data.name }}</td>
+<!--    <td><img [src]="imgUrl" alt=""></td>-->
+      <td>{{data.filepath}}</td>
+    <td><button class="btn btn-success" (click)="onDownloadClick(data)">Download</button></td>
+    </tr>
+    </tbody>
+  </table>
+</div>

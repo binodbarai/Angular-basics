@@ -1,0 +1,32 @@
+<!-- person-details.component.html -->
+<div class="container">
+  <div>
+    <h2 class="mb-4 text-decoration-underline">Personal Details</h2>
+    <h3 class="my-4">{{ specificPersonalDetail?.firstname }} {{ specificPersonalDetail?.lastname }}</h3>
+    <p><strong>Date of birth:</strong> {{ specificPersonalDetail?.dob }}</p>
+    <p><strong>Age:</strong> {{ specificPersonalDetail?.age }}</p>
+    <p><strong>Email:</strong> {{ specificPersonalDetail?.email }}</p>
+    <p><strong>Phone:</strong> {{ specificPersonalDetail?.phone }}</p>
+  </div>
+
+  <div class="mt-0">
+    <h2 class="text-decoration-underline mb-4">Family Details of {{ specificPersonalDetail?.firstname }} {{ specificPersonalDetail?.lastname }}  </h2>
+    <!-- Use Bootstrap grid classes for a responsive layout -->
+    <div class="row">
+      <div *ngFor="let family of specificPersonalDetail?.familyDetails" class="col-md-4 mb-3 ">
+        <div class="card">
+          <div class="card-body bg-dark text-light py-5 px-4">
+            <h4 class="card-title mb-4">{{ family?.familyFirstName }} {{ family?.familyLastName }}</h4>
+            <p class="card-text"><strong>Date of Birth:</strong> {{ family?.familyDob }}</p>
+            <p class="card-text"><strong>Age:</strong> {{ family?.familyAge }}</p>
+            <p class="card-text"><strong>Email:</strong> {{ family?.familyEmail }}</p>
+            <p class="card-text"><strong>Phone number:</strong> {{ family?.familyPhone }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-outline-primary mb-5 px-3" (click)="goBack()" >Go Back </button>
+    </div>
+  </div>
+</div>
